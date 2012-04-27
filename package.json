@@ -1,0 +1,16 @@
+{ "name": "thynapse"
+, "version": "0.0.1"
+, "dependencies":
+  {
+  }
+, "devDependencies":
+  { "coffee-script": "*"
+  , "mocha": "*"
+  , "should": "*"
+  }
+, "scripts":
+  { "prepublish": "coffee -o lib/ -c src/"
+  , "test": "mocha --compilers coffee:coffee-script tests/*"
+  }
+, "main": "./lib/thynapse.js"
+}
