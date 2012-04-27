@@ -10,7 +10,7 @@
   }
 , "scripts":
   { "prepublish": "coffee -o lib/ -c src/"
-  , "test": "mocha --compilers coffee:coffee-script tests/*"
+  , "test": "mocha -R tap"
   }
 , "main": "./lib/thynapse.js"
 }

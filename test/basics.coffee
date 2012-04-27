@@ -1,11 +1,6 @@
-should = require 'should'
-
 describe 'Thynapse', ->
     
     thynapse = (require '../').local()
-
-    it 'can connect to a local instance', ->
-        should.exist thynapse
 
     it 'can send a message', ->
         thynapse.send 'test'
@@ -21,3 +16,12 @@ describe 'Thynapse', ->
             done()
 
         thynapse.send 'data', text: "success"
+
+    it 'can subscribe to a pattern', (done) ->
+        return done()
+        thynapse.on 'pattern::*', (message) ->
+            message.works.should.equal "great"
+            message.channelID.should.equal "pattern::matching"
+            done()
+
+        thynapse.send 'pattern::matching', works: "great"

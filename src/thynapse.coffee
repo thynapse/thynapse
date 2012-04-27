@@ -1,9 +1,37 @@
 EventEmitter = (require 'events').EventEmitter
 
-class ThynapseLocalConnection extends EventEmitter
-    send: (channelID, message) ->
-        @emit channelID, message
+# A Subscription listens to a patten on a connection
+# and emits a 'message' event when it finds a match
+class Subscription extends EventEmitter
+    constructor: (@pattern, connection) ->
+        @connections = []
+        @listenTo connection if connection
+
+    listenTo: (connection) ->
+        @connections.push connection
+        connection.on 'message', @receive
+
+    receive: (message) =>
+        @emit 'message', message if @pattern == message.channelID
+
+    close: ->
+        for connection in @connections
+            connection.removeListener 'message', @receive
+
+class Hub extends EventEmitter
+    constructor: (@connection) ->
+
+    subscribe: (pattern) ->
+        new Subscription pattern, @connection
+
+    on: (pattern, callback) ->
+        subscription = @subscribe pattern
+        subscription.on 'message', callback
+
+    send: (channelID, message = {}) ->
+        message.channelID = channelID
+        @connection.emit 'message', message
 
 module.exports =
     local: ->
-        new ThynapseLocalConnection
+        new Hub (new EventEmitter)
