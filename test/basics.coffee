@@ -18,7 +18,6 @@ describe 'Thynapse', ->
         thynapse.send 'data', text: "success"
 
     it 'can subscribe to a pattern', (done) ->
-        return done()
         thynapse.on 'pattern::*', (message) ->
             message.works.should.equal "great"
             message.channelID.should.equal "pattern::matching"

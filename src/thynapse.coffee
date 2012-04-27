@@ -1,10 +1,12 @@
 EventEmitter = (require 'events').EventEmitter
+Pattern = require './pattern'
 
 # A Subscription listens to a patten on a connection
 # and emits a 'message' event when it finds a match
 class Subscription extends EventEmitter
     constructor: (@pattern, connection) ->
         @connections = []
+        @pattern = Pattern.compile @pattern
         @listenTo connection if connection
 
     listenTo: (connection) ->
@@ -12,7 +14,7 @@ class Subscription extends EventEmitter
         connection.on 'message', @receive
 
     receive: (message) =>
-        @emit 'message', message if @pattern == message.channelID
+        @emit 'message', message if @pattern.match message.channelID
 
     close: ->
         for connection in @connections
