@@ -9,8 +9,10 @@
   , "should": "*"
   }
 , "scripts":
-  { "prepublish": "coffee -o lib/ -c src/"
-  , "test": "mocha -R tap"
+  { "build": "coffee -o lib/ -c src/"
+  , "clean": "rm -rf lib"
+  , "prepublish": "npm run build"
+  , "test": "npm run build && mocha -R tap"
   }
 , "main": "./lib/thynapse.js"
 , "license": "MIT"
