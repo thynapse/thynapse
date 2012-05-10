@@ -2,6 +2,8 @@
 
 ## WARNING: Thynapse is *NOT* ready for production use
 
+[![Build Status](https://secure.travis-ci.org/agnoster/thynapse.png?branch=master)](http://travis-ci.org/agnoster/thynapse)]
+
 Thynapse is a lightweight substrate for event-based SOA systems. It handles decentralized message delivery, including receiver-specified semantics for whether a message should be received by all members of a service, or delivered to only one.
 
 The main difference to other systems is that the senders are "dumb", and merely broadcast events out, while the listeners determine, for a given event pattern, whether to listen in multicast or anycast mode. In effect, this means instead of multicast or anycast, it would be more accurate to speak of *multicatch* and *anycatch*.
