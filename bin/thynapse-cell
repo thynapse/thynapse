@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+var thynapse = require('../lib/thynapse')
+  , address = process.argv[2]
+
+thynapse.register('hello', address)

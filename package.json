@@ -1,7 +1,7 @@
 { "name": "thynapse"
 , "version": "0.0.1"
 , "dependencies":
-  {
+  { "zmq": "*"
   }
 , "devDependencies":
   { "coffee-script": "*"

@@ -53,7 +53,7 @@ describe 'Pattern', ->
     describe '/hel*o/', ->
         pattern = Pattern.compile /hel*o/
         
-        it 'should compile to a StringPatter', ->
+        it 'should compile to a StringPattern', ->
             pattern.constructor.name.should.equal "RegexpPattern"
 
         it 'should match "hello"', ->

@@ -1,7 +1,9 @@
 EventEmitter = (require 'events').EventEmitter
 Pattern = require './pattern'
+util = require './util'
+zmq = require 'zmq'
 
-# A Subscription listens to a patten on a connection
+# A Subscription listens to a pattern on a connection
 # and emits a 'message' event when it finds a match
 class Subscription extends EventEmitter
     constructor: (@pattern, connection) ->
@@ -34,6 +36,29 @@ class Hub extends EventEmitter
         message.channelID = channelID
         @connection.emit 'message', message
 
+class Service extends EventEmitter
+    constructor: (@service) ->
+        @id = new util.THID()
+        @cmdSock = zmq.socket 'dealer'
+        @evtSock = zmq.socket 'sub'
+
+        @cmdSock.on 'message', (msg) =>
+            @command msg
+
+    connect: (address) ->
+        @cmdSock.connect address
+        @cmdSock.identity = @service + '/' + @id.toString('hex')
+        helo = id: @id.toString('hex'), service: @service
+        @cmdSock.send 'HELO ' + JSON.stringify helo
+
+    command: (msg) ->
+        console.log "T> " + msg.toString('utf8')
+
 module.exports =
     local: ->
         new Hub (new EventEmitter)
+
+    register: (serviceID, address) ->
+        service = new Service serviceID
+        service.connect address
+        service
