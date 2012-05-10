@@ -2,7 +2,7 @@
 
 ## WARNING: Thynapse is *NOT* ready for production use
 
-[![Build Status](https://secure.travis-ci.org/agnoster/thynapse.png?branch=master)](http://travis-ci.org/agnoster/thynapse)
+[![Build Status](https://secure.travis-ci.org/thynapse/thynapse.png?branch=master)](http://travis-ci.org/thynapse/thynapse)
 
 Thynapse is a lightweight substrate for event-based SOA systems. It handles decentralized message delivery, including receiver-specified semantics for whether a message should be received by all members of a service, or delivered to only one.
 
