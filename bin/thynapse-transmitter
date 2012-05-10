@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+var Transmitter = require('../lib/transmitter')
+  , port = parseInt(process.argv[2])
+  , transmitter = new Transmitter(port, port + 1)
+
+transmitter.start()

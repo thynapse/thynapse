@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+// A little ØMQ REPL.
+// Pass a socket type and an address, then just type away!
+
+var zmq = require('zmq')
+  , type = process.argv[2]
+  , address = process.argv[3]
+  , socket = zmq.socket(type)
+
+process.stdin.setEncoding('utf8')
+process.stdin.on('data', function(data) {
+    data = data.trim()
+    if (socket.type == 'sub') {
+        socket.subscribe(data)
+        console.log("Subscribed to " + data)
+    } else {
+        socket.send(data)
+    }
+    process.stdout.write("> ")
+})
+
+socket.connect(address)
+socket.on('message', function(data) {
+    process.stdout.write("\r" + data, 'utf8')
+    process.stdout.write("\n> ")
+})
+
+process.stdout.write("> ")
+process.stdin.resume()

@@ -1,15 +1,15 @@
 cluster = require 'cluster'
-thynapse = (require 'thynapse').connect 'tcp://localhost:5454'
+thynapse = require 'thynapse'
 
 # The master will spawn workers and emit a "hello::world"
 # event every second, with an increasing `seq` number.
 if cluster.isMaster
 
-    hello = thynapse.service 'hello'
+    hello = thynapse.register 'hello', 'tcp://localhost:5454/'
 
     seq = 0
     # Start sending when the first greeter is ready
-    thynapse.on 'greeter::ready', ->
+    hello.on 'greeter::ready', tap: true, ->
         setInterval (-> hello.send 'world', seq: seq += 1), 1000
 
     # Start 4 workers
@@ -20,11 +20,11 @@ if cluster.isMaster
 # both in 'tap' mode and 'worker' mode.
 else
 
-    # Log each message we hear
-    thynapse.on 'hello::world', (message) ->
-        console.log 'Heard message #' + message.seq
+    greeter = thynapse.register 'greeter', 'tcp://localhost:5454/'
 
-    greeter = thynapse.service 'greeter'
+    # Log each message we hear
+    greeter.all.on 'hello::world', (message) ->
+        console.log 'Heard message #' + message.seq
 
     # Only handle each message once
     greeter.on 'hello::world', (message, resp) ->
