@@ -10,7 +10,7 @@ The main difference to other systems is that the senders are "dumb", and merely 
 
 Design goals are, *in order of priority*:
 
-k Correctness / Well-tested
+* Correctness / Well-tested
 * Simple API
 * Highly available
 * High throughput
@@ -64,3 +64,7 @@ Available commands:
       * `pub` - The address of the welcoming transmitter's event socket
 * Transmitter-to-Transmitter:
     * Trick question! All T2T communication goes over the "event" socket.
+
+## License
+
+Under MIT License

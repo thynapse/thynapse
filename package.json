@@ -13,4 +13,5 @@
   , "test": "mocha -R tap"
   }
 , "main": "./lib/thynapse.js"
+, "license": "MIT"
 }
